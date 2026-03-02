@@ -49,4 +49,43 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
     }
+
+    // Countdown Timer Logic
+    const targetDate = new Date("March 9, 2026 20:00:00").getTime();
+
+    const daysEl = document.getElementById("cd-days");
+    const hoursEl = document.getElementById("cd-hours");
+    const minsEl = document.getElementById("cd-mins");
+    const secsEl = document.getElementById("cd-secs");
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        if (distance < 0) {
+            daysEl.innerText = "00";
+            hoursEl.innerText = "00";
+            minsEl.innerText = "00";
+            secsEl.innerText = "00";
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Format to always have 2 digits
+        daysEl.innerText = days.toString().padStart(2, '0');
+        hoursEl.innerText = hours.toString().padStart(2, '0');
+        minsEl.innerText = minutes.toString().padStart(2, '0');
+        secsEl.innerText = seconds.toString().padStart(2, '0');
+    }
+
+    // Initial call
+    if (daysEl) {
+        updateCountdown();
+        // Update every second
+        setInterval(updateCountdown, 1000);
+    }
 });
